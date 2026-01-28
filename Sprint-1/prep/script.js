@@ -6,28 +6,17 @@ const film = {
   duration: 112,
 };
 
-// function createChildElement(parentElement, tagName, textContent) {
-//   const element = document.createElement(tagName);
-//   element.textContent = textContent;
-//   parentElement.append(element);
-//   return element;
-// }
+const template = document.getElementById("film-card");
 
-// const card = document.createElement("section");
+function createFilmCard(film) {
+  const card = template.content.cloneNode(true);
 
-// createChildElement(card, "h3", film.title);
+  card.querySelector("h3").textContent = film.title;
+  card.querySelector("[data-director]").textContent = `Director  ${film.director}`;
+  card.querySelector("time").textContent = `${film.duration} minutes`;
+  card.querySelector("[data-certificate]").textContent = `Certificate: ${film.certificate}`;
 
-// createChildElement(card, "p", `Director  ${film.director}`);
+  return card;
+}
 
-// createChildElement(card, "time", `${film.duration} minutes`);
-
-// createChildElement(card, "data", `Certificate: ${film.certificate}`);
-
-const card = document.getElementById("film-card").content.cloneNode(true);
-
-card.querySelector("h3").textContent = film.title;
-card.querySelector("[data-director]").textContent = `Director  ${film.director}`;
-card.querySelector("time").textContent = `${film.duration} minutes`;
-card.querySelector("[data-certificate]").textContent = `Certificate: ${film.certificate}`;
-
-document.body.append(card);
+document.body.append(createFilmCard(film));
