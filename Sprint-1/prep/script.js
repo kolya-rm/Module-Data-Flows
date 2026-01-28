@@ -6,22 +6,21 @@ const film = {
   duration: 112,
 };
 
+function createChildElement(parentElement, tagName, textContent) {
+  const element = document.createElement(tagName);
+  element.textContent = textContent;
+  parentElement.append(element);
+  return element;
+}
+
 const card = document.createElement("section");
 
-const filmTitle = document.createElement("h3");
-filmTitle.textContent = film.title;
-card.append(filmTitle);
+createChildElement(card, "h3", film.title);
 
-const director = document.createElement("p");
-director.textContent = `Director: ${film.director}`;
-card.append(director);
+createChildElement(card, "p", `Director  ${film.director}`);
 
-const duration = document.createElement("time");
-duration.textContent = `${film.duration} minutes`;
-card.append(duration);
+createChildElement(card, "time", `${film.duration} minutes`);
 
-const certificate = document.createElement("data");
-certificate.textContent = `Certificate: ${film.certificate}`;
-card.append(certificate);
+createChildElement(card, "data", `Certificate: ${film.certificate}`);
 
 document.body.append(card);
