@@ -8,13 +8,13 @@ const film = {
 
 const template = document.getElementById("film-card");
 
-function createFilmCard(film) {
+function createFilmCard({title, director, duration, certificate}) {
   const card = template.content.cloneNode(true);
 
-  card.querySelector("h3").textContent = film.title;
-  card.querySelector("[data-director]").textContent = `Director  ${film.director}`;
-  card.querySelector("time").textContent = `${film.duration} minutes`;
-  card.querySelector("[data-certificate]").textContent = `Certificate: ${film.certificate}`;
+  card.querySelector("h3").textContent = title;
+  card.querySelector("[data-director]").textContent = `Director  ${director}`;
+  card.querySelector("time").textContent = `${duration} minutes`;
+  card.querySelector("[data-certificate]").textContent = `Certificate: ${certificate}`;
 
   return card;
 }
