@@ -73,7 +73,7 @@ let hogwarts = [
 
 function printGryffindorNames(list) {
   console.log("```");
-  list.map(({firstName, lastName, house}) => 
+  list.forEach(({firstName, lastName, house}) => 
     { 
       if (house === "Gryffindor") {
         console.log(`${firstName} ${lastName}`)
@@ -85,7 +85,7 @@ function printGryffindorNames(list) {
 
 function printTeacherWithPetNames(list) {
   console.log("```");
-  list.map(({firstName, lastName, occupation, pet}) =>
+  list.forEach(({firstName, lastName, occupation, pet}) =>
     {
       if (occupation === "Teacher" && pet !== null) {
         console.log(`${firstName} ${lastName}`);
