@@ -13,11 +13,15 @@ function printReceipt(list) {
   const total = list.reduce((accumulator, {itemName, quantity, unitPricePence}) => {
     const sum = quantity * unitPricePence;
     const result = accumulator + sum;
-    console.log(quantity.toString().padEnd(8, " ") + itemName.padEnd(20, " ") + sum);
+    console.log(quantity.toString().padEnd(8, " ") + itemName.padEnd(20, " ") + formatPrice(sum));
     return result;
   }, 0);
-  console.log(`\nTotal:  ${total}`);
+  console.log(`\nTotal:  ${formatPrice(total)}`);
   console.log("```");
+}
+
+function formatPrice(price) {
+  return `${Math.floor(price / 100)}.${(price%100).toString().padEnd(2, "0")}`
 }
 
 printReceipt(order);
