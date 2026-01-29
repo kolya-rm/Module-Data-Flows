@@ -70,3 +70,16 @@ let hogwarts = [
     occupation: "Teacher",
   },
 ];
+
+function printGryffindorNames(list) {
+  list.map(({firstName, lastName, house}) => 
+    { 
+      if (house === "Gryffindor") {
+        console.log(`${firstName} ${lastName}`)
+      }
+    }
+  );
+}
+
+
+printGryffindorNames(hogwarts);
