@@ -40,4 +40,11 @@ function render() {
   document.body.append(...filmCards);
 }
 
+const searchBox = document.getElementById("q");
+searchBox.addEventListener("input", handleSearchInput);
+
+function handleSearchInput(event) {
+  console.log(event.target.value);
+}
+
 render();
