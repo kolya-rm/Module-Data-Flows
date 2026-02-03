@@ -35,16 +35,17 @@ function render() {
   const filteredFilms = state.films.filter(
     (film) => film.title.toLowerCase().includes(state.searchTerm.toLowerCase())
   );
-
   const filmCards = filteredFilms.map(createFilmCard);
-  document.body.append(...filmCards);
+  const filmsSection = document.getElementById("films");
+
+  filmsSection.textContent = "";
+  filmsSection.append(...filmCards);
 }
 
 const searchBox = document.getElementById("q");
 searchBox.addEventListener("input", handleSearchInput);
 
 function handleSearchInput(event) {
-  console.log(event.target.value);
+  state.searchTerm = event.target.value;
+  render();
 }
-
-render();
