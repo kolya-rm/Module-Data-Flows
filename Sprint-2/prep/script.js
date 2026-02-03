@@ -15,7 +15,7 @@ const state = {
       duration: 108,
     },
   ],
-  searchTerm: "Pirate",
+  searchTerm: "pirate",
 };
 
 const template = document.getElementById("film-card");
@@ -32,7 +32,9 @@ function createFilmCard({title, director, duration, certificate}) {
 }
 
 function render() {
-  const filteredFilms = state.films.filter((film) => film.title.includes(state.searchTerm));
+  const filteredFilms = state.films.filter(
+    (film) => film.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+  );
 
   const filmCards = filteredFilms.map(createFilmCard);
   document.body.append(...filmCards);
