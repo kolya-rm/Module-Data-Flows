@@ -28,8 +28,9 @@ function createFilmCard({title, director, duration, certificate}) {
   return card;
 }
 
-const filmCards = films.map(createFilmCard);
-
-for (const filmCard of filmCards) {
-  document.body.append(filmCard);
+function render() {
+  const filmCards = films.map(createFilmCard);
+  document.body.append(...filmCards);
 }
+
+render();
