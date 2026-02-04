@@ -1,3 +1,8 @@
+const CHECK_BTN_ID_PREFIX = "check-btn-";
+const CHECK_BTN_CLASS = "btn btn-success";
+const CHECK_BTN_TRUE_TEXT = "Yes";
+const CHECK_BTN_FALSE_TEXT = "No";
+
 let myLibrary = [];
 
 window.addEventListener("load", function (e) {
@@ -53,7 +58,7 @@ function Book(title, author, pages, check) {
 }
 
 function render() {
-  const table = document.getElementById("display")
+  const table = document.getElementById("display");
 
   clearBooksTable(table);
   createBooksTable(table);
@@ -76,26 +81,10 @@ function createBookRow(table, book) {
   createTitleCell(row, book);
   createAuthorCell(row, book);
   createPagesCell(row, book);
-  let wasReadCell = row.insertCell(3);
+  createCheckBtn(table, row, book);
   let deleteCell = row.insertCell(4);
 
   //add and wait for action for read/unread button
-  let changeBut = document.createElement("button");
-  changeBut.id = table.rows.length;
-  changeBut.className = "btn btn-success";
-  wasReadCell.appendChild(changeBut);
-  let readStatus = "";
-  if (book.check) {
-    readStatus = "Yes";
-  } else {
-    readStatus = "No";
-  }
-  changeBut.innerText = readStatus;
-
-  changeBut.addEventListener("click", function () {
-    book.check = !book.check;
-    render();
-  });
 
   //add delete button to every row and render again
   let delBut = document.createElement("button");
@@ -120,4 +109,22 @@ function createAuthorCell(row, book) {
 
 function createPagesCell(row, book) {
   row.insertCell(2).innerHTML = book.pages;
+}
+
+function createCheckBtn(table,row, book) {
+  const checkBtn = document.createElement("button");
+  checkBtn.id = CHECK_BTN_ID_PREFIX + table.rows.length;
+  checkBtn.className = CHECK_BTN_CLASS;
+  if (book.check) {
+    checkBtn.innerText = CHECK_BTN_TRUE_TEXT;
+  } else {
+    checkBtn.innerText = CHECK_BTN_FALSE_TEXT;
+  }
+  checkBtn.addEventListener("click", () => onClickCheckBtn(book));
+  row.insertCell(3).appendChild(checkBtn);
+}
+
+function onClickCheckBtn(book) {
+    book.check = !book.check;
+    render();
 }
