@@ -55,56 +55,60 @@ function Book(title, author, pages, check) {
 function render() {
   const table = document.getElementById("display")
   
-  clearTable(table);
-  //insert updated row and cells
-  
-  let length = myLibrary.length;
-  for (let i = 0; i < length; i++) {
-    let row = table.insertRow(1);
-    let titleCell = row.insertCell(0);
-    let authorCell = row.insertCell(1);
-    let pagesCell = row.insertCell(2);
-    let wasReadCell = row.insertCell(3);
-    let deleteCell = row.insertCell(4);
-    titleCell.innerHTML = myLibrary[i].title;
-    authorCell.innerHTML = myLibrary[i].author;
-    pagesCell.innerHTML = myLibrary[i].pages;
-
-    //add and wait for action for read/unread button
-    let changeBut = document.createElement("button");
-    changeBut.id = i;
-    changeBut.className = "btn btn-success";
-    wasReadCell.appendChild(changeBut);
-    let readStatus = "";
-    if (myLibrary[i].check) {
-      readStatus = "Yes";
-    } else {
-      readStatus = "No";
-    }
-    changeBut.innerText = readStatus;
-
-    changeBut.addEventListener("click", function () {
-      myLibrary[i].check = !myLibrary[i].check;
-      render();
-    });
-
-    //add delete button to every row and render again
-    let delBut = document.createElement("button");
-    delBut.id = i + 5;
-    deleteCell.appendChild(delBut);
-    delBut.className = "btn btn-warning";
-    delBut.innerHTML = "Delete";
-    delBut.addEventListener("click", function () {
-      alert(`You've deleted title: ${myLibrary[i].title}`);
-      myLibrary.splice(i, 1);
-      render();
-    });
-    console.log(i + " " + row);
-  }
+  clearBooksTable(table);
+  createBooksTable(table);
 }
 
-function clearTable(table) {
+function clearBooksTable(table) {
   while (table.rows.length > 1) {
     table.deleteRow(1);
   }
+}
+
+function createBooksTable(table) {
+  for (const book of myLibrary) {
+    createBookRow(table, book);
+  }
+}
+
+function createBookRow(table, book) {
+  let row = table.insertRow(1);
+  let titleCell = row.insertCell(0);
+  let authorCell = row.insertCell(1);
+  let pagesCell = row.insertCell(2);
+  let wasReadCell = row.insertCell(3);
+  let deleteCell = row.insertCell(4);
+  titleCell.innerHTML = book.title;
+  authorCell.innerHTML = book.author;
+  pagesCell.innerHTML = book.pages;
+
+  //add and wait for action for read/unread button
+  let changeBut = document.createElement("button");
+  changeBut.id = table.rows.length;
+  changeBut.className = "btn btn-success";
+  wasReadCell.appendChild(changeBut);
+  let readStatus = "";
+  if (book.check) {
+    readStatus = "Yes";
+  } else {
+    readStatus = "No";
+  }
+  changeBut.innerText = readStatus;
+
+  changeBut.addEventListener("click", function () {
+    book.check = !book.check;
+    render();
+  });
+
+  //add delete button to every row and render again
+  let delBut = document.createElement("button");
+  delBut.id = table.rows.length + 5;
+  deleteCell.appendChild(delBut);
+  delBut.className = "btn btn-warning";
+  delBut.innerHTML = "Delete";
+  delBut.addEventListener("click", function () {
+    alert(`You've deleted title: ${book.title}`);
+    myLibrary.splice(myLibrary.indexOf(book), 1);
+    render();
+  });
 }
