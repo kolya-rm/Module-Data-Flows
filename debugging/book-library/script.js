@@ -2,8 +2,11 @@ const CHECK_BTN_ID_PREFIX = "check-btn-";
 const CHECK_BTN_CLASS = "btn btn-success";
 const CHECK_BTN_TRUE_TEXT = "Yes";
 const CHECK_BTN_FALSE_TEXT = "No";
+const DELETE_BTN_ID_PREFIX = "delete-btn-";
+const DELETE_BTN_CLASS = "btn btn-warning";
+const DELETE_BTN_TEXT = "Delete";
 
-let myLibrary = [];
+const MY_LIBRARY = [];
 
 window.addEventListener("load", function (e) {
   populateStorage();
@@ -11,7 +14,7 @@ window.addEventListener("load", function (e) {
 });
 
 function populateStorage() {
-  if (myLibrary.length == 0) {
+  if (MY_LIBRARY.length == 0) {
     let book1 = new Book("Robison Crusoe", "Daniel Defoe", "252", true);
     let book2 = new Book(
       "The Old Man and the Sea",
@@ -19,8 +22,8 @@ function populateStorage() {
       "127",
       true
     );
-    myLibrary.push(book1);
-    myLibrary.push(book2);
+    MY_LIBRARY.push(book1);
+    MY_LIBRARY.push(book2);
     render();
   }
 }
@@ -45,7 +48,7 @@ function submit() {
     return false;
   } else {
     let book = new Book(title.value, author.value, pages.value, check.checked);
-    myLibrary.push(book);
+    MY_LIBRARY.push(book);
     render();
   }
 }
@@ -71,7 +74,7 @@ function clearBooksTable(table) {
 }
 
 function createBooksTable(table) {
-  for (const book of myLibrary) {
+  for (const book of MY_LIBRARY) {
     createBookRow(table, book);
   }
 }
@@ -82,21 +85,7 @@ function createBookRow(table, book) {
   createAuthorCell(row, book);
   createPagesCell(row, book);
   createCheckBtn(table, row, book);
-  let deleteCell = row.insertCell(4);
-
-  //add and wait for action for read/unread button
-
-  //add delete button to every row and render again
-  let delBut = document.createElement("button");
-  delBut.id = table.rows.length + 5;
-  deleteCell.appendChild(delBut);
-  delBut.className = "btn btn-warning";
-  delBut.innerHTML = "Delete";
-  delBut.addEventListener("click", function () {
-    alert(`You've deleted title: ${book.title}`);
-    myLibrary.splice(myLibrary.indexOf(book), 1);
-    render();
-  });
+  createDeleteBtn(table, row, book);
 }
 
 function createTitleCell(row, book) {
@@ -111,7 +100,7 @@ function createPagesCell(row, book) {
   row.insertCell(2).innerHTML = book.pages;
 }
 
-function createCheckBtn(table,row, book) {
+function createCheckBtn(table, row, book) {
   const checkBtn = document.createElement("button");
   checkBtn.id = CHECK_BTN_ID_PREFIX + table.rows.length;
   checkBtn.className = CHECK_BTN_CLASS;
@@ -124,7 +113,22 @@ function createCheckBtn(table,row, book) {
   row.insertCell(3).appendChild(checkBtn);
 }
 
-function onClickCheckBtn(book) {
-    book.check = !book.check;
-    render();
+function createDeleteBtn(table, row, book) {
+  const deleteBtn = document.createElement("button");
+  deleteBtn.id = DELETE_BTN_ID_PREFIX + table.rows.length;
+  deleteBtn.className = DELETE_BTN_CLASS;
+  deleteBtn.innerHTML = DELETE_BTN_TEXT;
+  deleteBtn.addEventListener("click", () => onClickCheckBtn(book));
+  row.insertCell(4).appendChild(deleteBtn);
 }
+
+function onClickCheckBtn(book) {
+  book.check = !book.check;
+  render();
+}
+
+function onClickCheckBtn(book) {
+    alert(`You've deleted title: ${book.title}`);
+    MY_LIBRARY.splice(MY_LIBRARY.indexOf(book), 1);
+    render();
+  }
