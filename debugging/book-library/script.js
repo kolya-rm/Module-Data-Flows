@@ -8,8 +8,10 @@ const DELETE_BTN_TEXT = "Delete";
 
 const MY_LIBRARY = [];
 
+//region prepare
 window.addEventListener("load", function (e) {
   populateStorage();
+  setupAddBookBtn();
   render();
 });
 
@@ -28,38 +30,15 @@ function populateStorage() {
   }
 }
 
-const title = document.getElementById("title");
-const author = document.getElementById("author");
-const pages = document.getElementById("pages");
-const check = document.getElementById("check");
-
-//check the right input from forms and if its ok -> add the new book (object in array)
-//via Book function and start render function
-function submit() {
-  if (
-    title.value == null ||
-    title.value == "" ||
-    author.value == null ||
-    author.value == "" ||
-    pages.value == null ||
-    pages.value == ""
-  ) {
-    alert("Please fill all fields!");
-    return false;
-  } else {
-    let book = new Book(title.value, author.value, pages.value, check.checked);
-    MY_LIBRARY.push(book);
-    render();
-  }
+function setupAddBookBtn() {
+  document
+    .getElementById("add-book-btn")
+    .addEventListener("click", onClickAddBook);
 }
+//endregion
 
-function Book(title, author, pages, check) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.check = check;
-}
 
+//region render logic
 function render() {
   const table = document.getElementById("display");
 
@@ -118,8 +97,25 @@ function createDeleteBtn(table, row, book) {
   deleteBtn.id = DELETE_BTN_ID_PREFIX + table.rows.length;
   deleteBtn.className = DELETE_BTN_CLASS;
   deleteBtn.innerHTML = DELETE_BTN_TEXT;
-  deleteBtn.addEventListener("click", () => onClickCheckBtn(book));
+  deleteBtn.addEventListener("click", () => onClickDeleteBtn(book));
   row.insertCell(4).appendChild(deleteBtn);
+}
+//endregion
+
+//region click listeners
+function onClickAddBook() {
+  const title = document.getElementById("title");
+  const author = document.getElementById("author");
+  const pages = document.getElementById("pages");
+  const check = document.getElementById("check");
+  if (title.value && author.value && pages.value) {
+    MY_LIBRARY.push(
+      new Book(title.value, author.value, pages.value, check.checked)
+    );
+    render();
+  } else {
+    alert("Please fill all fields!");
+  }
 }
 
 function onClickCheckBtn(book) {
@@ -127,8 +123,16 @@ function onClickCheckBtn(book) {
   render();
 }
 
-function onClickCheckBtn(book) {
-    alert(`You've deleted title: ${book.title}`);
-    MY_LIBRARY.splice(MY_LIBRARY.indexOf(book), 1);
-    render();
-  }
+function onClickDeleteBtn(book) {
+  alert(`You've deleted title: ${book.title}`);
+  MY_LIBRARY.splice(MY_LIBRARY.indexOf(book), 1);
+  render();
+}
+//endregion
+
+function Book(title, author, pages, check) {
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.check = check;
+}
