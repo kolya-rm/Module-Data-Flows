@@ -89,7 +89,7 @@ function render() {
     });
 
     //add delete button to every row and render again
-    let delButton = document.createElement("button");
+    let delBut = document.createElement("button");
     delBut.id = i + 5;
     deleteCell.appendChild(delBut);
     delBut.className = "btn btn-warning";
@@ -99,5 +99,6 @@ function render() {
       myLibrary.splice(i, 1);
       render();
     });
+    console.log(i + " " + row);
   }
 }
