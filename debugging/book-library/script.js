@@ -54,7 +54,7 @@ function Book(title, author, pages, check) {
 
 function render() {
   const table = document.getElementById("display")
-  
+
   clearBooksTable(table);
   createBooksTable(table);
 }
@@ -72,15 +72,12 @@ function createBooksTable(table) {
 }
 
 function createBookRow(table, book) {
-  let row = table.insertRow(1);
-  let titleCell = row.insertCell(0);
-  let authorCell = row.insertCell(1);
-  let pagesCell = row.insertCell(2);
+  const row = table.insertRow(1);
+  createTitleCell(row, book);
+  createAuthorCell(row, book);
+  createPagesCell(row, book);
   let wasReadCell = row.insertCell(3);
   let deleteCell = row.insertCell(4);
-  titleCell.innerHTML = book.title;
-  authorCell.innerHTML = book.author;
-  pagesCell.innerHTML = book.pages;
 
   //add and wait for action for read/unread button
   let changeBut = document.createElement("button");
@@ -111,4 +108,16 @@ function createBookRow(table, book) {
     myLibrary.splice(myLibrary.indexOf(book), 1);
     render();
   });
+}
+
+function createTitleCell(row, book) {
+  row.insertCell(0).innerHTML = book.title;
+}
+
+function createAuthorCell(row, book) {
+  row.insertCell(1).innerHTML = book.author;
+}
+
+function createPagesCell(row, book) {
+  row.insertCell(2).innerHTML = book.pages;
 }
