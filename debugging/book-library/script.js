@@ -8,6 +8,15 @@ const DELETE_BTN_TEXT = "Delete";
 
 const MY_LIBRARY = [];
 
+
+function Book(title, author, pages, check) {
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.check = check;
+}
+
+
 //region prepare
 window.addEventListener("load", function (e) {
   populateStorage();
@@ -16,24 +25,12 @@ window.addEventListener("load", function (e) {
 });
 
 function populateStorage() {
-  if (MY_LIBRARY.length == 0) {
-    let book1 = new Book("Robison Crusoe", "Daniel Defoe", "252", true);
-    let book2 = new Book(
-      "The Old Man and the Sea",
-      "Ernest Hemingway",
-      "127",
-      true
-    );
-    MY_LIBRARY.push(book1);
-    MY_LIBRARY.push(book2);
-    render();
-  }
+  MY_LIBRARY.push(new Book("Robison Crusoe", "Daniel Defoe", "252", true));
+  MY_LIBRARY.push(new Book("The Old Man and the Sea", "Ernest Hemingway", "127", true));
 }
 
 function setupAddBookBtn() {
-  document
-    .getElementById("add-book-btn")
-    .addEventListener("click", onClickAddBook);
+  document.getElementById("add-book-btn").addEventListener("click", onClickAddBook);
 }
 //endregion
 
@@ -102,6 +99,7 @@ function createDeleteBtn(table, row, book) {
 }
 //endregion
 
+
 //region click listeners
 function onClickAddBook() {
   const title = document.getElementById("title");
@@ -129,10 +127,3 @@ function onClickDeleteBtn(book) {
   render();
 }
 //endregion
-
-function Book(title, author, pages, check) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.check = check;
-}
