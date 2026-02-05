@@ -70,3 +70,30 @@ let hogwarts = [
     occupation: "Teacher",
   },
 ];
+
+function printGryffindorNames(list) {
+  console.log("```");
+  list.forEach(({firstName, lastName, house}) => 
+    { 
+      if (house === "Gryffindor") {
+        console.log(`${firstName} ${lastName}`)
+      }
+    }
+  );
+  console.log("```");
+}
+
+function printTeacherWithPetNames(list) {
+  console.log("```");
+  list.forEach(({firstName, lastName, occupation, pet}) =>
+    {
+      if (occupation === "Teacher" && pet !== null) {
+        console.log(`${firstName} ${lastName}`);
+      }
+    }
+  );
+  console.log("```");
+}
+
+printGryffindorNames(hogwarts);
+printTeacherWithPetNames(hogwarts);
