@@ -18,11 +18,7 @@ function Book(title, author, pages, check) {
 
 
 //region prepare
-window.addEventListener("load", function (e) {
-  populateStorage();
-  setupAddBookBtn();
-  render();
-});
+window.addEventListener("load", onWindowLoad);
 
 function populateStorage() {
   MY_LIBRARY.push(new Book("Robison Crusoe", "Daniel Defoe", "252", true));
@@ -100,7 +96,13 @@ function createDeleteBtn(table, row, book) {
 //endregion
 
 
-//region click listeners
+//region listeners
+function onWindowLoad() {
+    populateStorage();
+    setupAddBookBtn();
+    render();
+}
+
 function onClickAddBook() {
   const title = document.getElementById("title");
   const author = document.getElementById("author");
