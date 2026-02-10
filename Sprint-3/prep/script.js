@@ -49,3 +49,16 @@ function handleSearchInput(event) {
   state.searchTerm = event.target.value;
   render();
 }
+
+const endpoint = "https://programming.codeyourfuture.io/dummy-apis/films.json";
+
+const fetchFilms = async () => {
+  const response = await fetch(endpoint);
+  return await response.json();
+}
+
+fetchFilms().then((films) => {
+  state.films = films;
+  console.log(state);
+  render();
+}); 
