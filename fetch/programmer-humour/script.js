@@ -10,7 +10,12 @@ function fetchData() {
 }
 
 function render(data) {
-  console.log(data);
+  renderHeader(data);
+}
+
+function renderHeader(data) {
+  const headerElement = document.getElementById("image-header");
+  headerElement.textContent = data.title;
 }
 
 function onFetchDataError(error) {
