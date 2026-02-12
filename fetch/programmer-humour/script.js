@@ -49,9 +49,14 @@ function renderImageHeader(data) {
 }
 
 function renderImage(data) {
-  const imageElement = document.getElementById("image-img");
+  const imageElement = document.createElement("img");
+  imageElement.id = IMAGE_ELEMENT_ID;
   imageElement.src = data.img;
   imageElement.alt = data.alt;
+
+  const imageSectionElement = document.getElementById(IMAGE_SECTION_ID);
+
+  imageSectionElement.appendChild(imageElement);
 }
 
 function onFetchDataError(error) {
