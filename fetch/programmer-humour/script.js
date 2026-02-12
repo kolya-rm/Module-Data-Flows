@@ -9,22 +9,34 @@ function fetchData() {
     .catch(onFetchDataError);
 }
 
-function renderWaitMessage() {
+function clearImageSection() {
   const imageSectionElement = document.getElementById("image-section");
+
+  imageSectionElement.textContent = "";
+
+  return imageSectionElement;
+}
+
+function renderWaitMessage() {
   const loadingHeader = document.createElement("h1");
 
   loadingHeader.textContent = LOADING_MESSAGE;
-  imageSectionElement.textContent = "";
+
+  const imageSectionElement = clearImageSection();
+  
   imageSectionElement.appendChild(loadingHeader);
 }
 
 function render(data) {
+  clearImageSection();
   renderHeader(data);
   renderImage(data);
 }
 
 function renderHeader(data) {
   const headerElement = document.getElementById("image-header");
+  const imageSectionElement = document.getElementById("image-section");
+
   headerElement.textContent = data.title;
 }
 
