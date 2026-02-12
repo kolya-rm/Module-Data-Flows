@@ -9,7 +9,7 @@ function fetchData() {
   renderWaitMessage();
   fetch(XKCD_API_URL)
     .then(response => response.json())
-    .then(render)
+    .then(onFetchDataOK)
     .catch(onFetchDataError);
 }
 
@@ -29,6 +29,11 @@ function renderWaitMessage() {
   const imageSectionElement = clearImageSection();
 
   imageSectionElement.appendChild(loadingHeader);
+}
+
+function onFetchDataOK(data) {
+  console.log(data);
+  render(data);
 }
 
 function render(data) {
