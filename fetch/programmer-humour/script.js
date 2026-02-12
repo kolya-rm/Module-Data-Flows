@@ -11,11 +11,18 @@ function fetchData() {
 
 function render(data) {
   renderHeader(data);
+  renderImage(data);
 }
 
 function renderHeader(data) {
   const headerElement = document.getElementById("image-header");
   headerElement.textContent = data.title;
+}
+
+function renderImage(data) {
+  const imageElement = document.getElementById("image-img");
+  imageElement.src = data.img;
+  imageElement.alt = data.alt;
 }
 
 function onFetchDataError(error) {
