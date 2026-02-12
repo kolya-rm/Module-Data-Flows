@@ -1,9 +1,12 @@
 const XKCD_API_URL = "https://xkcd.vercel.app/?comic=latest";
-const LOADING_MESSAGE = "Data is fetching. Please wait."
+
+const LOADING_MESSAGE = "Data is fetching. Please wait.";
+const FETCHING_DATA_ERROR_MESSAGE = "Error: Failed to fetch data";
 
 const IMAGE_SECTION_ID = "image-section";
 const IMAGE_HEADER_ID = "image-header";
 const IMAGE_ELEMENT_ID = "image-img";
+
 
 function fetchData() {
   renderWaitMessage();
@@ -66,7 +69,8 @@ function renderImage(data) {
 
 function onFetchDataError(error) {
   console.error(error);
-  alert("Error: Failed to fetch data");
+  alert(FETCHING_DATA_ERROR_MESSAGE);
 }
+
 
 window.addEventListener("load", fetchData);
