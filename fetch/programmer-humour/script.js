@@ -1,6 +1,10 @@
 const XKCD_API_URL = "https://xkcd.vercel.app/?comic=latest";
 const LOADING_MESSAGE = "Data is fetching. Please wait."
 
+const IMAGE_SECTION_ID = "image-section";
+const IMAGE_HEADER_ID = "image-header";
+const IMAGE_ELEMENT_ID = "image-img";
+
 function fetchData() {
   renderWaitMessage();
   fetch(XKCD_API_URL)
@@ -10,7 +14,7 @@ function fetchData() {
 }
 
 function clearImageSection() {
-  const imageSectionElement = document.getElementById("image-section");
+  const imageSectionElement = document.getElementById(IMAGE_SECTION_ID);
 
   imageSectionElement.textContent = "";
 
@@ -23,21 +27,25 @@ function renderWaitMessage() {
   loadingHeader.textContent = LOADING_MESSAGE;
 
   const imageSectionElement = clearImageSection();
-  
+
   imageSectionElement.appendChild(loadingHeader);
 }
 
 function render(data) {
   clearImageSection();
-  renderHeader(data);
+  renderImageHeader(data);
   renderImage(data);
 }
 
-function renderHeader(data) {
-  const headerElement = document.getElementById("image-header");
-  const imageSectionElement = document.getElementById("image-section");
+function renderImageHeader(data) {
+  const imageHeaderElement = document.createElement("h1");
+  
+  imageHeaderElement.id = IMAGE_HEADER_ID;
+  imageHeaderElement.textContent = data.title;
 
-  headerElement.textContent = data.title;
+  const imageSectionElement = document.getElementById(IMAGE_SECTION_ID);
+
+  imageSectionElement.appendChild(imageHeaderElement)
 }
 
 function renderImage(data) {
