@@ -1,0 +1,24 @@
+body {
+  background-color: rgb(220, 220, 220);
+}
+
+#image-section {
+  width: 80%;
+  margin: auto;
+  padding-top: 100px;
+  text-align: center;
+}
+
+#image-header{
+  width: fit-content;
+  margin: auto;
+  padding: 50px;
+}
+
+#image-img {
+  width: 70%;
+  margin: auto;
+  padding: 20px;
+  border: solid 2px;
+}
+
