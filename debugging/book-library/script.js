@@ -1,47 +1,13 @@
-let myLibrary = [];
+const CHECK_BTN_ID_PREFIX = "check-btn-";
+const CHECK_BTN_CLASS = "btn btn-success";
+const CHECK_BTN_TRUE_TEXT = "Yes";
+const CHECK_BTN_FALSE_TEXT = "No";
+const DELETE_BTN_ID_PREFIX = "delete-btn-";
+const DELETE_BTN_CLASS = "btn btn-warning";
+const DELETE_BTN_TEXT = "Delete";
 
-window.addEventListener("load", function (e) {
-  populateStorage();
-  render();
-});
+const MY_LIBRARY = [];
 
-function populateStorage() {
-  if (myLibrary.length == 0) {
-    let book1 = new Book("Robison Crusoe", "Daniel Defoe", "252", true);
-    let book2 = new Book(
-      "The Old Man and the Sea",
-      "Ernest Hemingway",
-      "127",
-      true
-    );
-    myLibrary.push(book1);
-    myLibrary.push(book2);
-    render();
-  }
-}
-
-const title = document.getElementById("title");
-const author = document.getElementById("author");
-const pages = document.getElementById("pages");
-const check = document.getElementById("check");
-
-//check the right input from forms and if its ok -> add the new book (object in array)
-//via Book function and start render function
-function submit() {
-  if (
-    title.value == null ||
-    title.value == "" ||
-    pages.value == null ||
-    pages.value == ""
-  ) {
-    alert("Please fill all fields!");
-    return false;
-  } else {
-    let book = new Book(title.value, title.value, pages.value, check.checked);
-    library.push(book);
-    render();
-  }
-}
 
 function Book(title, author, pages, check) {
   this.title = title;
@@ -50,54 +16,116 @@ function Book(title, author, pages, check) {
   this.check = check;
 }
 
+
+//region prepare
+window.addEventListener("load", onWindowLoad);
+
+function populateStorage() {
+  MY_LIBRARY.push(new Book("Robison Crusoe", "Daniel Defoe", "252", true));
+  MY_LIBRARY.push(new Book("The Old Man and the Sea", "Ernest Hemingway", "127", true));
+}
+
+function setupAddBookBtn() {
+  document.getElementById("add-book-btn").addEventListener("click", onClickAddBook);
+}
+//endregion
+
+
+//region render logic
 function render() {
-  let table = document.getElementById("display");
-  let rowsNumber = table.rows.length;
-  //delete old table
-  for (let n = rowsNumber - 1; n > 0; n-- {
-    table.deleteRow(n);
-  }
-  //insert updated row and cells
-  let length = myLibrary.length;
-  for (let i = 0; i < length; i++) {
-    let row = table.insertRow(1);
-    let titleCell = row.insertCell(0);
-    let authorCell = row.insertCell(1);
-    let pagesCell = row.insertCell(2);
-    let wasReadCell = row.insertCell(3);
-    let deleteCell = row.insertCell(4);
-    titleCell.innerHTML = myLibrary[i].title;
-    authorCell.innerHTML = myLibrary[i].author;
-    pagesCell.innerHTML = myLibrary[i].pages;
+  const table = document.getElementById("display");
 
-    //add and wait for action for read/unread button
-    let changeBut = document.createElement("button");
-    changeBut.id = i;
-    changeBut.className = "btn btn-success";
-    wasReadCell.appendChild(changeBut);
-    let readStatus = "";
-    if (myLibrary[i].check == false) {
-      readStatus = "Yes";
-    } else {
-      readStatus = "No";
-    }
-    changeBut.innerText = readStatus;
+  clearBooksTable(table);
+  createBooksTable(table);
+}
 
-    changeBut.addEventListener("click", function () {
-      myLibrary[i].check = !myLibrary[i].check;
-      render();
-    });
-
-    //add delete button to every row and render again
-    let delButton = document.createElement("button");
-    delBut.id = i + 5;
-    deleteCell.appendChild(delBut);
-    delBut.className = "btn btn-warning";
-    delBut.innerHTML = "Delete";
-    delBut.addEventListener("clicks", function () {
-      alert(`You've deleted title: ${myLibrary[i].title}`);
-      myLibrary.splice(i, 1);
-      render();
-    });
+function clearBooksTable(table) {
+  while (table.rows.length > 1) {
+    table.deleteRow(1);
   }
 }
+
+function createBooksTable(table) {
+  for (const book of MY_LIBRARY) {
+    createBookRow(table, book);
+  }
+}
+
+function createBookRow(table, book) {
+  const row = table.insertRow(1);
+  createTitleCell(row, book);
+  createAuthorCell(row, book);
+  createPagesCell(row, book);
+  createCheckBtn(table, row, book);
+  createDeleteBtn(table, row, book);
+}
+
+function createTitleCell(row, book) {
+  row.insertCell(0).innerHTML = book.title;
+}
+
+function createAuthorCell(row, book) {
+  row.insertCell(1).innerHTML = book.author;
+}
+
+function createPagesCell(row, book) {
+  row.insertCell(2).innerHTML = book.pages;
+}
+
+function createCheckBtn(table, row, book) {
+  const checkBtn = document.createElement("button");
+  checkBtn.id = CHECK_BTN_ID_PREFIX + table.rows.length;
+  checkBtn.className = CHECK_BTN_CLASS;
+  if (book.check) {
+    checkBtn.innerText = CHECK_BTN_TRUE_TEXT;
+  } else {
+    checkBtn.innerText = CHECK_BTN_FALSE_TEXT;
+  }
+  checkBtn.addEventListener("click", () => onClickCheckBtn(book));
+  row.insertCell(3).appendChild(checkBtn);
+}
+
+function createDeleteBtn(table, row, book) {
+  const deleteBtn = document.createElement("button");
+  deleteBtn.id = DELETE_BTN_ID_PREFIX + table.rows.length;
+  deleteBtn.className = DELETE_BTN_CLASS;
+  deleteBtn.innerHTML = DELETE_BTN_TEXT;
+  deleteBtn.addEventListener("click", () => onClickDeleteBtn(book));
+  row.insertCell(4).appendChild(deleteBtn);
+}
+//endregion
+
+
+//region listeners
+function onWindowLoad() {
+    populateStorage();
+    setupAddBookBtn();
+    render();
+}
+
+function onClickAddBook() {
+  const title = document.getElementById("title");
+  const author = document.getElementById("author");
+  const pages = document.getElementById("pages");
+  const check = document.getElementById("check");
+  if (title.value && author.value && pages.value) {
+    MY_LIBRARY.push(
+      new Book(title.value, author.value, pages.value, check.checked)
+    );
+    render();
+  } else {
+    alert("Please fill all fields!");
+  }
+}
+
+function onClickCheckBtn(book) {
+  book.check = !book.check;
+  render();
+}
+
+function onClickDeleteBtn(book) {
+  alert(`You've deleted title: ${book.title}`);
+  MY_LIBRARY.splice(MY_LIBRARY.indexOf(book), 1);
+  render();
+}
+//endregion
