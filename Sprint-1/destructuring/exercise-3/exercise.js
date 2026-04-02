@@ -6,3 +6,22 @@ let order = [
   { itemName: "Hot Coffee", quantity: 2, unitPricePence: 100 },
   { itemName: "Hash Brown", quantity: 4, unitPricePence: 40 },
 ];
+
+function printReceipt(list) {
+  console.log("```");
+  console.log("QTY".padEnd(8, " ") + "ITEM".padEnd(20, " ") + "TOTAL")
+  const total = list.reduce((accumulator, {itemName, quantity, unitPricePence}) => {
+    const sum = quantity * unitPricePence;
+    const result = accumulator + sum;
+    console.log(quantity.toString().padEnd(8, " ") + itemName.padEnd(20, " ") + formatPrice(sum));
+    return result;
+  }, 0);
+  console.log(`\nTotal:  ${formatPrice(total)}`);
+  console.log("```");
+}
+
+function formatPrice(price) {
+  return `${Math.floor(price / 100)}.${(price%100).toString().padEnd(2, "0")}`
+}
+
+printReceipt(order);
